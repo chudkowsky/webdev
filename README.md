@@ -10,11 +10,25 @@ Aplikacja webowa do zarządzania galeriami zdjęć. Umożliwia tworzenie kolekcj
 
 - Node.js 18+
 - MongoDB uruchomione lokalnie na porcie 27017
+- MongoDB Database Tools (`mongodump`/`mongorestore`) — [pobierz tutaj](https://www.mongodb.com/try/download/database-tools)
 
-### Instalacja
+### Kroki uruchomienia
 
+**1. Zainstaluj zależności:**
 ```bash
 npm install
+```
+
+**2. Upewnij się, że MongoDB jest uruchomione** (domyślnie `localhost:27017`).
+
+**3. Zaimportuj przykładowe dane:**
+```bash
+mongorestore --archive="backup/gallery"
+```
+Po imporcie dostępne są konta: `admin` (hasło: `admin123`) oraz `mb` (hasło: `12345678`).
+
+**4. Uruchom aplikację:**
+```bash
 npm start
 ```
 

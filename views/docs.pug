@@ -13,9 +13,18 @@ block content
         ul
           li Node.js 18+
           li MongoDB uruchomione lokalnie na porcie 27017
-        h6.fw-semibold.mt-3 Instalacja
+          li MongoDB Database Tools (mongodump/mongorestore)
+        h6.fw-semibold.mt-3 Krok 1 — zainstaluj zależności
         pre.bg-white.border.rounded.p-3(style='font-size:0.8rem;')
           | npm install
+        h6.fw-semibold.mt-3 Krok 2 — uruchom MongoDB
+        p.mb-0(style='font-size:0.875rem;') Upewnij się, że MongoDB działa lokalnie na porcie 27017.
+        h6.fw-semibold.mt-3 Krok 3 — zaimportuj przykładowe dane
+        pre.bg-white.border.rounded.p-3(style='font-size:0.8rem;')
+          | mongorestore --archive="backup/gallery"
+        p.mb-0(style='font-size:0.875rem;') Po imporcie dostępne są konta: #[code admin] (hasło: #[code admin123]) oraz #[code mb] (hasło: #[code 12345678]).
+        h6.fw-semibold.mt-3 Krok 4 — uruchom aplikację
+        pre.bg-white.border.rounded.p-3(style='font-size:0.8rem;')
           | npm start
         p.mb-0.mt-2(style='font-size:0.875rem;') Aplikacja działa pod adresem #[strong http://localhost:3000].
         p.mb-0.mt-1(style='font-size:0.875rem;') Dokumentacja API (Swagger UI) dostępna pod #[a(href='/api-docs') /api-docs].
