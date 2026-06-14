@@ -155,7 +155,7 @@ public/
   uploads/           — oryginalne wgrane zdjęcia
   uploads/thumbnails — automatycznie generowane miniatury 300×200
   stylesheets/       — własne style CSS
-data/                — przykładowe pliki JSON do mongoimport
+backup/              — archiwum mongodump bazy danych (plik: backup/gallery)
 ```
 
 ### Przepływ autoryzacji
