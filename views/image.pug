@@ -1,0 +1,61 @@
+extends layout
+
+block content
+  p.breadcrumb-museum
+    a(href='/galleries') Galerie
+    span.sep /
+    a(href=`/galleries/${image.gallery}`)= image.gallery
+    span.sep /
+    a(href=`/galleries/${image.gallery}/images`) Zdjęcia
+    span.sep /
+    span= image.title
+
+  .page-header
+    div
+      h1.page-title= image.title
+      if image.description
+        p.mt-1.mb-0(style='font-size:0.9rem;color:var(--text-muted);') #{image.description}
+    .d-flex.align-items-center.gap-2.flex-wrap
+      if loggedUser === image.owner.username || loggedUser === 'admin'
+        a.btn-museum(href=`/galleries/${image.gallery}/images/${image._id}/edit`) Edytuj
+        form(method='POST' action=`/galleries/${image.gallery}/images/${image._id}/delete` style='display:inline')
+          button.btn-museum.btn-museum-danger(type='submit') Usuń
+
+  img.image-full(src=`/uploads/${image.filename}` alt=image.title)
+
+  .image-meta
+    div
+      .image-meta-label Fotograf
+      .image-meta-value= image.owner.username
+    div(style='text-align:right;')
+      .image-meta-label Galeria
+      .image-meta-value= image.gallery
+
+  .comments-section
+    h2.comments-title
+      | Komentarze&nbsp;
+      span(style='font-family:DM Sans,sans-serif;font-size:0.85rem;color:var(--text-faint);font-weight:400;')= `(${comments.length})`
+
+    if comments.length
+      each comment in comments
+        .comment-item
+          p.comment-text= comment.text
+          .d-flex.align-items-center.justify-content-between
+            span.comment-author= comment.author.username
+            if loggedUser === comment.author.username || loggedUser === 'admin'
+              form(method='POST' action=`/galleries/${image.gallery}/images/${image._id}/comments/${comment._id}/delete` style='display:inline')
+                button.btn-museum.btn-museum-danger(type='submit' style='font-size:0.65rem;padding:0.25rem 0.6rem;') Usuń
+    else
+      p(style='font-size:0.875rem;color:var(--text-faint);padding:1rem 0;') Brak komentarzy. Bądź pierwszy.
+
+    if loggedUser
+      .comment-form-wrapper
+        p.comment-form-title Dodaj komentarz
+        form(method='POST' action=`/galleries/${image.gallery}/images/${image._id}/comments`)
+          div.mb-3
+            label.form-label(for='text') Twój komentarz
+            textarea#text.form-control(name='text' rows='3' placeholder='Napisz coś o tym zdjęciu...' required)
+          button.btn-museum.btn-museum-accent(type='submit') Opublikuj
+
+  .mt-4
+    a.text-link(href=`/galleries/${image.gallery}/images`) &larr; Powrót do kolekcji

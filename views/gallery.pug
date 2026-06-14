@@ -1,0 +1,27 @@
+extends layout
+
+block content
+  p.breadcrumb-museum
+    a(href='/galleries') Galerie
+    span.sep /
+    span= gallery.name
+
+  .page-header
+    div
+      h1.page-title= gallery.name
+      if gallery.description
+        p.mt-1.mb-0(style='font-size:0.9rem;color:var(--text-muted);') #{gallery.description}
+    .d-flex.align-items-center.gap-2.flex-wrap
+      a.btn-museum.btn-museum-accent(href=`/galleries/${gallery._id}/images`) Zobacz zdjęcia
+      if loggedUser === gallery.owner.username || loggedUser === 'admin'
+        a.btn-museum(href=`/galleries/${gallery._id}/edit`) Edytuj
+        form(method='POST' action=`/galleries/${gallery._id}/delete` style='display:inline')
+          button.btn-museum.btn-museum-danger(type='submit') Usuń
+
+  p.text-muted-sm(style='letter-spacing:0.05em;text-transform:uppercase;')
+    | Kolekcja:&nbsp;
+    strong(style='color:var(--accent);')= gallery.owner.username
+
+  .divider
+
+  a.text-link(href='/galleries') &larr; Wszystkie galerie

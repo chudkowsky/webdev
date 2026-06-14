@@ -1,0 +1,31 @@
+extends layout
+
+block content
+  .page-header
+    h1.page-title= title
+
+  .form-card
+    p.form-card-title
+      | #{gallery ? 'Edytuj galerię' : 'Nowa galeria'}
+    form(method='POST')
+      div.mb-4
+        label.form-label(for='name') Nazwa galerii
+        input#name.form-control(type='text' name='name' minlength='2' placeholder='min. 2 znaki' required value=gallery ? gallery.name : '')
+      div.mb-4
+        label.form-label(for='description') Opis
+        input#description.form-control(type='text' name='description' minlength='2' placeholder='min. 2 znaki' value=gallery ? gallery.description : '')
+
+      if loggedUser === 'admin' && users && users.length
+        div.mb-4
+          label.form-label(for='owner') Właściciel
+          select#owner.form-control(name='owner')
+            option(value='') — Wybierz użytkownika —
+            each user in users
+              option(value=`${user._id}`)= user.username
+
+      button.btn-museum.btn-museum-accent(type='submit' style='width:100%;justify-content:center;') Zapisz galerię
+
+  if messages
+    ul.museum-message.mt-3
+      each message in messages
+        li!= message

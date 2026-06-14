@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  .page-header
+    h1.page-title= title
+    if loggedUser
+      a.btn-museum(href='/galleries/gallery_add') + Nowa galeria
+
+  .gallery-grid
+    each gallery in galleries
+      a.gallery-card(href=`/galleries/${gallery._id}`)
+        .gallery-card-thumb
+          if previews && previews[gallery._id.toString()]
+            img(src=`/uploads/thumbnails/${previews[gallery._id.toString()]}` alt=gallery.name style='width:100%;height:100%;object-fit:cover;position:absolute;inset:0;')
+        .gallery-card-body
+          h2= gallery.name
+          if gallery.description
+            p= gallery.description
+          else
+            p.text-muted-sm Brak opisu.
+          p.gallery-card-owner= gallery.owner.username
+
+  if !galleries.length
+    p(style='font-size:0.875rem;color:var(--text-muted);margin-top:2rem;') Brak galerii.

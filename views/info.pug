@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  .page-header
+    h1.page-title= title
+
+  if messages
+    ul.museum-message
+      each message in messages
+        li!= message

@@ -1,0 +1,16 @@
+[
+  {
+    "_id": { "$oid": "507f191e810c19729de860ee" },
+    "text": "Beautiful shot! The lighting is perfect.",
+    "image": { "$oid": "507f191e810c19729de860ec" },
+    "author": { "$oid": "507f1f77bcf86cd799439011" },
+    "created_at": { "$date": "2025-01-12T08:15:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "507f191e810c19729de860ef" },
+    "text": "Great composition, love the symmetry.",
+    "image": { "$oid": "507f191e810c19729de860ed" },
+    "author": { "$oid": "507f1f77bcf86cd799439012" },
+    "created_at": { "$date": "2025-01-12T09:45:00.000Z" }
+  }
+]

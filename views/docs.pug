@@ -1,0 +1,405 @@
+extends layout
+
+block content
+  .page-header
+    h1.page-title Dokumentacja
+
+  .row.g-4
+
+    .col-12
+      h2.h5.fw-semibold.mb-3 1. Instalacja i uruchomienie
+      .card.border-0.bg-light.p-4
+        h6.fw-semibold Wymagania
+        ul
+          li Node.js 18+
+          li MongoDB uruchomione lokalnie na porcie 27017
+        h6.fw-semibold.mt-3 Instalacja
+        pre.bg-white.border.rounded.p-3(style='font-size:0.8rem;')
+          | npm install
+          | npm start
+        p.mb-0.mt-2(style='font-size:0.875rem;') Aplikacja działa pod adresem #[strong http://localhost:3000].
+        p.mb-0.mt-1(style='font-size:0.875rem;') Dokumentacja API (Swagger UI) dostępna pod #[a(href='/api-docs') /api-docs].
+
+    .col-12
+      h2.h5.fw-semibold.mb-3 2. Pierwsze uruchomienie — tworzenie administratora
+      .card.border-0.bg-light.p-4
+        p.mb-2(style='font-size:0.875rem;') Na świeżej bazie danych pierwszy zarejestrowany użytkownik #[strong musi] mieć nazwę użytkownika #[code admin].
+        p.mb-0(style='font-size:0.875rem;') Przejdź do #[a(href='/users/user_register') Rejestracji], podaj nazwę użytkownika #[code admin] i hasło (min. 8 znaków). Kolejni użytkownicy mogą mieć dowolną nazwę.
+
+    .col-12
+      h2.h5.fw-semibold.mb-3 3. Przykładowe dane — kopia zapasowa i przywracanie
+      .card.border-0.bg-light.p-4
+        p(style='font-size:0.875rem;')
+          | Plik #[code backup/gallery] to binarne archiwum mongodump bazy danych.
+          | Do eksportu i importu użyj narzędzi #[strong mongodump/mongorestore] (MongoDB Database Tools).
+        h6.fw-semibold.mt-3 Tworzenie kopii (eksport)
+        pre.bg-white.border.rounded.p-3(style='font-size:0.8rem;')
+          | mongodump --archive="backup/gallery" --db="gallery"
+        h6.fw-semibold.mt-3 Przywracanie pod tą samą nazwą bazy
+        pre.bg-white.border.rounded.p-3(style='font-size:0.8rem;')
+          | mongorestore --archive="backup/gallery"
+        h6.fw-semibold.mt-3 Przywracanie pod inną nazwą bazy
+        pre.bg-white.border.rounded.p-3(style='font-size:0.8rem;')
+          | mongorestore --archive="backup/gallery" --nsFrom="gallery.*" --nsTo="gallery_test.*"
+        p.mb-0.mt-3(style='font-size:0.875rem;')
+          | Dane logowania po przywróceniu kopii: #[br]
+          | #[code admin] → hasło: #[code admin123] #[br]
+          | #[code mb] &nbsp;&nbsp;&nbsp;→ hasło: #[code 12345678]
+
+    .col-12
+      h2.h5.fw-semibold.mb-3 4. Technologie
+      .card.border-0.bg-light.p-4
+        table.table.table-sm.table-borderless.mb-0
+          tbody
+            tr
+              td.fw-semibold(style='width:160px;') Środowisko
+              td Node.js
+            tr
+              td.fw-semibold Framework
+              td Express 4
+            tr
+              td.fw-semibold Szablony
+              td Pug
+            tr
+              td.fw-semibold Baza danych
+              td MongoDB (via Mongoose 9)
+            tr
+              td.fw-semibold Autoryzacja
+              td JWT (jsonwebtoken) + bcrypt + ciasteczko HTTP-only
+            tr
+              td.fw-semibold Upload plików
+              td Multer
+            tr
+              td.fw-semibold Miniatury
+              td Sharp (zmiana rozmiaru do 300×200 px)
+            tr
+              td.fw-semibold UI
+              td Bootstrap 5.3
+            tr
+              td.fw-semibold Dokumentacja API
+              td Swagger UI (swagger-jsdoc + swagger-ui-express)
+
+    .col-12
+      h2.h5.fw-semibold.mb-3 5. Lista pakietów
+      .card.border-0.bg-light.p-4
+        table.table.table-sm.mb-0
+          thead
+            tr
+              th Pakiet
+              th Zastosowanie
+          tbody
+            tr
+              td #[code express]
+              td Serwer HTTP i routing
+            tr
+              td #[code mongoose]
+              td ODM dla MongoDB — definicja schematów i zapytania
+            tr
+              td #[code pug]
+              td Szablony HTML po stronie serwera
+            tr
+              td #[code bcrypt]
+              td Haszowanie haseł
+            tr
+              td #[code jsonwebtoken]
+              td Tworzenie i weryfikacja tokenów JWT
+            tr
+              td #[code cookie-parser]
+              td Parsowanie ciasteczek z nagłówków żądań
+            tr
+              td #[code multer]
+              td Parsowanie multipart/form-data przy uploading plików
+            tr
+              td #[code sharp]
+              td Wydajne skalowanie obrazów (generowanie miniatur)
+            tr
+              td #[code morgan]
+              td Logowanie żądań HTTP
+            tr
+              td #[code swagger-jsdoc]
+              td Generowanie specyfikacji OpenAPI z komentarzy JSDoc
+            tr
+              td #[code swagger-ui-express]
+              td Serwowanie interaktywnego Swagger UI pod /api-docs
+            tr
+              td #[code http-errors]
+              td Narzędzie do tworzenia obiektów błędów HTTP
+
+    .col-12
+      h2.h5.fw-semibold.mb-3 6. Modele bazy danych
+      .card.border-0.bg-light.p-4
+
+        h6.fw-semibold Kolekcja: #[code users]
+        table.table.table-sm.mb-4
+          thead
+            tr
+              th Pole
+              th Typ
+              th Uwagi
+          tbody
+            tr
+              td #[code username]
+              td String
+              td Wymagane, unikalne
+            tr
+              td #[code password]
+              td String
+              td Wymagane, hash bcrypt
+            tr
+              td #[code first_name]
+              td String
+              td Opcjonalne, maks. 100 znaków
+            tr
+              td #[code last_name]
+              td String
+              td Opcjonalne, maks. 100 znaków
+
+        h6.fw-semibold Kolekcja: #[code galleries]
+        table.table.table-sm.mb-4
+          thead
+            tr
+              th Pole
+              th Typ
+              th Uwagi
+          tbody
+            tr
+              td #[code name]
+              td String
+              td Wymagane, maks. 200 znaków
+            tr
+              td #[code description]
+              td String
+              td Opcjonalne, maks. 500 znaków
+            tr
+              td #[code owner]
+              td ObjectId → users
+              td Wymagane, referencja do właściciela
+
+        h6.fw-semibold Kolekcja: #[code images]
+        table.table.table-sm.mb-4
+          thead
+            tr
+              th Pole
+              th Typ
+              th Uwagi
+          tbody
+            tr
+              td #[code title]
+              td String
+              td Wymagane, maks. 200 znaków
+            tr
+              td #[code description]
+              td String
+              td Opcjonalne, maks. 500 znaków
+            tr
+              td #[code filename]
+              td String
+              td Wymagane, przechowywane w public/uploads/
+            tr
+              td #[code gallery]
+              td ObjectId → galleries
+              td Wymagane
+            tr
+              td #[code owner]
+              td ObjectId → users
+              td Wymagane
+            tr
+              td #[code uploaded_at]
+              td Date
+              td Domyślnie: teraz
+
+        h6.fw-semibold Kolekcja: #[code comments]
+        table.table.table-sm.mb-0
+          thead
+            tr
+              th Pole
+              th Typ
+              th Uwagi
+          tbody
+            tr
+              td #[code text]
+              td String
+              td Wymagane, maks. 1000 znaków
+            tr
+              td #[code image]
+              td ObjectId → images
+              td Wymagane
+            tr
+              td #[code author]
+              td ObjectId → users
+              td Wymagane
+            tr
+              td #[code created_at]
+              td Date
+              td Domyślnie: teraz
+
+    .col-12
+      h2.h5.fw-semibold.mb-3 7. Architektura aplikacji
+      .card.border-0.bg-light.p-4
+        p(style='font-size:0.875rem;') Wzorzec MVC — każdy zasób ma własny model, kontroler i plik tras:
+        pre.bg-white.border.rounded.p-3(style='font-size:0.8rem;')
+          | app.js               — konfiguracja Express, połączenie z MongoDB, globalny middleware autoryzacji
+          | bin/www              — punkt wejścia serwera HTTP
+          | middleware/
+          |   authenticate.js   — weryfikacja JWT, guard requireAdmin
+          | models/
+          |   user.js / gallery.js / image.js / comment.js
+          | controllers/
+          |   userController.js    — rejestracja, logowanie, wylogowanie, CRUD użytkowników (admin)
+          |   galleryController.js — CRUD galerii
+          |   imageController.js   — CRUD zdjęć, upload przez multer, miniatura przez sharp
+          |   commentController.js — dodawanie i usuwanie komentarzy
+          | routes/
+          |   users.js / galleries.js / images.js / comments.js
+          | views/               — szablony Pug
+          | public/
+          |   uploads/           — oryginalne wgrane zdjęcia
+          |   uploads/thumbnails — automatycznie generowane miniatury 300×200
+          |   stylesheets/       — własne style CSS
+          | data/                — przykładowe pliki JSON do mongoimport
+        h6.fw-semibold.mt-3 Przepływ autoryzacji
+        p.mb-0(style='font-size:0.875rem;')
+          | Logowanie → weryfikacja bcrypt → JWT podpisany HS256 → zapisany jako ciasteczko HTTP (#[code mytoken], ważność 10 min).
+          | Każde żądanie: middleware aplikacji dekoduje ciasteczko i udostępnia #[code res.locals.loggedUser].
+          | Chronione trasy dodatkowo wywołują middleware #[code authenticate], który ustawia #[code req.user] z id i nazwą użytkownika.
+          | Trasy tylko dla admina dodatkowo wywołują #[code requireAdmin].
+
+    .col-12
+      h2.h5.fw-semibold.mb-3 8. Dokumentacja API
+      .card.border-0.bg-light.p-4
+        p.mb-3(style='font-size:0.875rem;') Pełna interaktywna dokumentacja API (OpenAPI 3.0) dostępna pod:
+        a.btn-museum(href='/api-docs') Otwórz Swagger UI →
+        p.mt-3.mb-0(style='font-size:0.875rem;') Skrócony przegląd tras:
+        table.table.table-sm.mt-2.mb-0
+          thead
+            tr
+              th Metoda
+              th Ścieżka
+              th Opis
+              th Dostęp
+          tbody
+            tr
+              td GET
+              td /
+              td Strona główna
+              td Publiczny
+            tr
+              td GET
+              td /users/user_register
+              td Formularz rejestracji
+              td Publiczny
+            tr
+              td POST
+              td /users/user_register
+              td Rejestracja użytkownika
+              td Publiczny
+            tr
+              td GET
+              td /users/user_login
+              td Formularz logowania
+              td Publiczny
+            tr
+              td POST
+              td /users/user_login
+              td Logowanie
+              td Publiczny
+            tr
+              td GET
+              td /users/user_logout
+              td Wylogowanie
+              td Zalogowany
+            tr
+              td GET
+              td /users
+              td Lista użytkowników
+              td Admin
+            tr
+              td GET
+              td /users/user_add
+              td Formularz dodawania użytkownika
+              td Admin
+            tr
+              td POST
+              td /users/user_add
+              td Dodanie użytkownika
+              td Admin
+            tr
+              td POST
+              td /users/:id/delete
+              td Usunięcie użytkownika (kaskadowo)
+              td Admin
+            tr
+              td GET
+              td /galleries
+              td Lista galerii
+              td Zalogowany
+            tr
+              td GET
+              td /galleries/gallery_add
+              td Formularz dodawania galerii
+              td Zalogowany
+            tr
+              td POST
+              td /galleries/gallery_add
+              td Tworzenie galerii
+              td Zalogowany
+            tr
+              td GET
+              td /galleries/:id
+              td Szczegóły galerii
+              td Zalogowany
+            tr
+              td GET/POST
+              td /galleries/:id/edit
+              td Edycja galerii
+              td Właściciel / Admin
+            tr
+              td POST
+              td /galleries/:id/delete
+              td Usunięcie galerii
+              td Właściciel / Admin
+            tr
+              td GET
+              td /galleries/:gId/images
+              td Lista zdjęć w galerii
+              td Zalogowany
+            tr
+              td GET/POST
+              td /galleries/:gId/images/image_add
+              td Dodanie zdjęcia
+              td Właściciel / Admin
+            tr
+              td GET
+              td /galleries/:gId/images/:id
+              td Szczegóły zdjęcia + komentarze
+              td Zalogowany
+            tr
+              td GET/POST
+              td /galleries/:gId/images/:id/edit
+              td Edycja metadanych zdjęcia
+              td Właściciel / Admin
+            tr
+              td POST
+              td /galleries/:gId/images/:id/delete
+              td Usunięcie zdjęcia i plików
+              td Właściciel / Admin
+            tr
+              td POST
+              td /galleries/:gId/images/:iId/comments
+              td Dodanie komentarza
+              td Zalogowany
+            tr
+              td POST
+              td /galleries/:gId/images/:iId/comments/:id/delete
+              td Usunięcie komentarza
+              td Autor / Admin
+            tr
+              td GET
+              td /api-docs
+              td Swagger UI
+              td Publiczny
+            tr
+              td GET
+              td /docs
+              td Ta strona
+              td Publiczny

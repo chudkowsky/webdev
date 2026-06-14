@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  .page-header
+    h1.page-title= title
+
+  .form-card
+    p.form-card-title
+      | #{image ? 'Edytuj zdjęcie' : 'Dodaj zdjęcie'}
+    form(method='POST' enctype='multipart/form-data')
+      div.mb-4
+        label.form-label(for='title') Tytuł
+        input#title.form-control(type='text' name='title' required value=image ? image.title : '')
+      div.mb-4
+        label.form-label(for='description') Opis
+        input#description.form-control(type='text' name='description' value=image ? image.description : '')
+      if !image
+        div.mb-4
+          label.form-label(for='image') Plik zdjęcia
+          input#image.form-control(type='file' name='image' accept='image/*' required)
+      button.btn-museum.btn-museum-accent(type='submit' style='width:100%;justify-content:center;') Zapisz
+
+  if messages
+    ul.museum-message.mt-3
+      each message in messages
+        li!= message

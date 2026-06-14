@@ -1,0 +1,34 @@
+extends layout
+
+block content
+  p.breadcrumb-museum
+    a(href='/galleries') Galerie
+    span.sep /
+    a(href=`/galleries/${gallery._id}`)= gallery.name
+    span.sep /
+    span Zdjęcia
+
+  .page-header
+    div
+      h1.page-title= title
+      p.mt-1.mb-0(style='font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-faint);')
+        | Kolekcja: #{gallery.owner.username}
+    if loggedUser
+      a.btn-museum(href=`/galleries/${gallery._id}/images/image_add`) + Dodaj zdjęcie
+
+  .photo-grid#photo-grid
+    each image in images
+      .photo-card(data-category='all')
+        a.photo-card-link(href=`/galleries/${gallery._id}/images/${image._id}`)
+          img(src=`/uploads/thumbnails/${image.filename}` alt=image.title)
+          .photo-card-overlay
+            span.photo-card-caption= image.title
+        .photo-card-meta
+          div= image.title
+          div.photo-card-meta-owner= image.owner.username
+
+  if !images.length
+    p(style='font-size:0.875rem;color:var(--text-muted);margin-top:2rem;') Brak zdjęć w tej kolekcji.
+
+  .mt-4
+    a.text-link(href=`/galleries/${gallery._id}`) &larr; Powrót do galerii

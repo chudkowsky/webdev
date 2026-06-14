@@ -1,0 +1,16 @@
+[
+  {
+    "_id": { "$oid": "507f1f77bcf86cd799439011" },
+    "username": "admin",
+    "first_name": "Admin",
+    "last_name": "User",
+    "password": "$2b$10$ZviI69SEKSYeEpplN7EjKOnHwldjhVyHM2WIBI1dWMH9BhnRnl6uu"
+  },
+  {
+    "_id": { "$oid": "507f1f77bcf86cd799439012" },
+    "username": "john",
+    "first_name": "John",
+    "last_name": "Doe",
+    "password": "$2b$10$wqetPdemhjQLqSZfPOIXB.Z1.wKG0B/HZblhFCGR7eLc0AOalm94i"
+  }
+]

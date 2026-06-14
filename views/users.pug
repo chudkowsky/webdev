@@ -1,0 +1,27 @@
+extends layout
+
+block content
+  .page-header
+    h1.page-title= title
+    a.btn-museum(href='/users/user_add') + Dodaj użytkownika
+
+  table.table.mt-3
+    thead
+      tr
+        th Nazwa użytkownika
+        th Imię
+        th Nazwisko
+        th Akcje
+    tbody
+      each user in users
+        tr
+          td= user.username
+          td= user.first_name
+          td= user.last_name
+          td
+            if user.username !== 'admin'
+              form(method='POST' action=`/users/${user._id}/delete` style='display:inline')
+                button.btn-museum.btn-museum-danger(type='submit' onclick="return confirm('Usunąć użytkownika i wszystkie jego dane?')") Usuń
+
+  if !users.length
+    p(style='font-size:0.875rem;color:var(--text-muted);margin-top:2rem;') Brak użytkowników.

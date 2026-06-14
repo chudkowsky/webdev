@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  .page-header
+    h1.page-title= title
+
+  .form-card
+    p.form-card-title Zaloguj się do konta
+    form(method='POST')
+      div.mb-4
+        label.form-label(for='username') Nazwa użytkownika
+        input#username.form-control(type='text' placeholder='twoja nazwa użytkownika' name='username' required value='')
+      div.mb-4
+        label.form-label(for='password') Hasło
+        input#password.form-control(type='password' placeholder='••••••••' name='password' autocomplete='off' required value='')
+      button.btn-museum.btn-museum-accent(type='submit' style='width:100%;justify-content:center;') Zaloguj
+
+    if messages
+      ul.museum-message.mt-3
+        each message in messages
+          li!= message
+
+  p.mt-3(style='font-size:0.8rem;color:var(--text-muted);')
+    | Nie masz konta?&nbsp;
+    a(href='/users/user_register' style='color:var(--accent);') Zarejestruj się

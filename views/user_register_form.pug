@@ -1,0 +1,37 @@
+extends layout
+
+block content
+  .page-header
+    h1.page-title= title
+
+  .form-card
+    p.form-card-title
+      if adminMode
+        | Dodaj nowego użytkownika
+      else
+        | Utwórz konto
+    form(method='POST' action=adminMode ? '/users/user_add' : '/users/user_register')
+      .row.g-3.mb-3
+        .col-sm-6
+          label.form-label(for='first_name') Imię
+          input#first_name.form-control(type='text' name='first_name' required value='')
+        .col-sm-6
+          label.form-label(for='last_name') Nazwisko
+          input#last_name.form-control(type='text' name='last_name' required value='')
+      div.mb-3
+        label.form-label(for='username') Nazwa użytkownika
+        input#username.form-control(type='text' name='username' required value='')
+      div.mb-4
+        label.form-label(for='password') Hasło
+        input#password.form-control(type='password' name='password' minlength='8' placeholder='min. 8 znaków' autocomplete='off' required value='')
+      button.btn-museum.btn-museum-accent(type='submit' style='width:100%;justify-content:center;') Zarejestruj
+
+    if messages
+      ul.museum-message.mt-3
+        each message in messages
+          li!= message
+
+  if !adminMode
+    p.mt-3(style='font-size:0.8rem;color:var(--text-muted);')
+      | Masz już konto?&nbsp;
+      a(href='/users/user_login' style='color:var(--accent);') Zaloguj się
